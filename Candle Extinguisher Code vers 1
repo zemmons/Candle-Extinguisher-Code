@@ -53,4 +53,4 @@ void loop() {
 
   display.setCursor(0, 16);  // set the cursor position to the second line of the OLED screen
   display.print(temperature);  //
-
+}
