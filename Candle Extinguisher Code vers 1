@@ -42,6 +42,14 @@ void loop() {
     servoAngle1 += 90;  // update the first servo's angle variable
     servoAngle2 += 90;  // update the second servo's angle variable
   }
+ if (currentMillis - previousMillis > TIMER_INTERVAL) 
+{
+ servo1.write(servoAngle1 + 90);  // set the first servo's angle to its current angle plus 90 degrees
+    servo2.write(servoAngle2 + 90);  // set the second servo's angle to its current angle plus 90 degrees
+    servoAngle1 += 90;  // update the first servo's angle variable
+    servoAngle2 += 90;  // update the second servo's angle variable
+
+}
 
   display.setCursor(0, 16);  // set the cursor position to the second line of the OLED screen
   display.print(temperature);  //
