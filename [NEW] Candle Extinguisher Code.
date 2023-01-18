@@ -9,6 +9,8 @@ int servoPin1 = 9;  // define the pin that the first servo is connected to
 int servoPin2 = 10; // define the pin that the second servo is connected to
 int servoAngle1 = 0;  // define a variable to store the first servo's angle
 int servoAngle2 = 0;  // define a variable to store the second servo's angle
+int buttonPin = 8; // define the pin connected to the button
+int LEDPin = 11; //define the pin connected to the LED
 
 #define DHTTYPE DHT11   // define the type of DHT sensor being used
 #define DHTPIN 2        // define the pin that the DHT sensor is connected to
@@ -18,20 +20,19 @@ DHT dht(DHTPIN, DHTTYPE);  // create a DHT object
 #define OLED_HEIGHT 64  // define the OLED screen's height
 #define OLED_ADDRESS 0x3C  // define the OLED screen's I2C address
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT, &Wire, OLED_ADDRESS);  // create an OLED display object
-
 //define timer variables
 unsigned long previousMillis = 0;  // store the previous time
 unsigned long currentMillis = 0;
 const unsigned long TIMER_INTERVAL = 14400000; //define timer interval 4 hours in millis
 
-void setup() 
+void setup()
 {
   servo1.attach(servoPin1);  // attach the first servo to the defined pin
   servo2.attach(servoPin2);  // attach the second servo to the defined pin
   dht.begin();  // initialize the DHT sensor
 
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDRESS);  // initialize the OLED display
-  if(!display)  //if OLED is not properly initialized
+  if (!display) //if OLED is not properly initialized
   {
     Serial.println(" OLED is not properly initialized");
   }
@@ -43,21 +44,29 @@ void setup()
 }
 
 void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    digitalWrite(13, LOW); // turn off Arduino
+    while(1); // stop the loop
+  }
+else
+{digitalWrite(buttonPin == HIGH)
+digitalWrite(13,HIGH)
+digitalWrite()
+}
   float temperature = dht.readTemperature();  // read the temperature from the DHT sensor
-  if(isnan(temperature)){  // check if the temperature read is valid
+  if (isnan(temperature)) { // check if the temperature read is valid
     Serial.println("Failed to read temperature from DHT sensor");
   }
-  if (temperature > 120) 
+  if (temperature > 120)
   {
     currentMillis = millis();
-    if (currentMillis - previousMillis > TIMER_INTERVAL) 
+    if (currentMillis - previousMillis > TIMER_INTERVAL)
     {
-      servo1.
-    write(servoAngle1 + 90);  // set the first servo's angle to its current angle plus 90 degrees
-    servo2.write(servoAngle2 + 90);  // set the second servo's angle to its current angle plus 90 degrees
-    servoAngle1 += 90;  // update the first servo's angle variable
-    servoAngle2 += 90;  // update the second servo's angle variable
-    previousMillis = currentMillis;
+      servo1.write(servoAngle1 + 90);  // set the first servo's angle to its current angle plus 90 degrees
+      servo2.write(servoAngle2 + 90);  // set the second servo's angle to its current angle plus 90 degrees
+      servoAngle1 += 90;  // update the first servo's angle variable
+      servoAngle2 += 90;  // update the second servo's angle variable
+      previousMillis = currentMillis;
     }
   }
   else // temperature is less than or equal to 120 degrees Fahrenheit
